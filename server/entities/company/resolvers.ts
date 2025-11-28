@@ -1,5 +1,11 @@
 const resolvers = {
-  Query: {},
+  Query: {
+    me: () => {
+      return {
+        id: "1",
+      };
+    },
+  },
 };
 
 export default resolvers;

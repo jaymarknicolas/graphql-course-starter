@@ -4,10 +4,11 @@ import { expressMiddleware } from "@apollo/server/express4";
 import cors from "cors";
 import cookiParser from "cookie-parser";
 import schema from "./schema";
+import createContext from "./context";
 
 const app = express();
 
-const server = new ApolloServer(schema);
+const server = new ApolloServer({ schema });
 
 async function startServer() {
   await server.start();
@@ -20,7 +21,9 @@ async function startServer() {
     }),
     cookiParser(),
     express.json(),
-    expressMiddleware(server)
+    expressMiddleware(server, {
+      context: ({ req, res }) => createContext({ req, res }),
+    })
   );
 
   app.listen(4000, () => {
